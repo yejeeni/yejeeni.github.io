@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>김예진 | Java Backend Developer</title>
+  <meta name="description" content="Java Backend Developer 김예진의 포트폴리오. Spring Boot, Redis, Docker 기반 실시간 서비스 개발자." />
+  <meta property="og:title" content="김예진 | Java Backend Developer" />
+  <meta property="og:description" content="Redis 동시성 제어 · Docker 배포 · Spring Boot 기반 실시간 서비스를 설계하고 배포합니다." />
+  <meta property="og:type" content="website" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+KR:wght@400;500;700&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ===== Navigation ===== -->
+  <nav id="navbar">
+    <div class="nav-container">
+      <a href="#hero" class="nav-logo">YJ<span class="accent">.</span></a>
+      <ul class="nav-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#awards">Awards</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <button class="nav-toggle" aria-label="메뉴 열기">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ===== Hero Section ===== -->
+  <section id="hero">
+    <div class="hero-container">
+      <h1 class="hero-name">김예진<span class="accent">.</span></h1>
+      <h2 class="hero-title">Java Backend Developer</h2>
+      <div class="hero-badges">
+        <span class="badge-tech">Java</span>
+        <span class="badge-tech">Spring Boot</span>
+        <span class="badge-tech">JPA</span>
+        <span class="badge-tech">Redis</span>
+        <span class="badge-tech">Docker</span>
+      </div>
+      <p class="hero-desc">
+        동시성 문제를 Redis로 직접 설계하고, Docker Compose로 NCP에 전체 배포한 백엔드 개발자입니다.<br />
+        Spring Boot 기반 실시간 웹 서비스를 처음부터 끝까지 만들고, 설계 과정을 문서로 남깁니다.
+      </p>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <span class="stat-num">4</span>
+          <span class="stat-label">팀 프로젝트</span>
+        </div>
+        <div class="hero-stat">
+          <span class="stat-num">2</span>
+          <span class="stat-label">배포 경험</span>
+        </div>
+        <div class="hero-stat">
+          <span class="stat-num">0<span class="stat-unit">%</span></span>
+          <span class="stat-label">동시 부하 에러율</span>
+        </div>
+      </div>
+      <div class="hero-cta">
+        <a href="https://github.com/yejeeni" target="_blank" rel="noopener" class="btn btn-primary">
+          GitHub 바로가기
+        </a>
+        <a href="#projects" class="btn btn-secondary">프로젝트 보기</a>
+      </div>
+    </div>
+    <div class="hero-scroll-indicator">
+      <span>scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- ===== About Section ===== -->
+  <section id="about" class="section fade-section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label">01</span>
+        <h2 class="section-title">About</h2>
+      </div>
+      <div class="about-grid">
+        <div class="about-text">
+          <p class="about-lead">
+            <strong>처음 해보는 것들을 두려워하지 않습니다.</strong>
+          </p>
+          <p>
+            Redis 동시성 제어도, Docker 인프라 구축도 모두 팀 프로젝트에서 처음 시도했고,
+            실패를 거치며 직접 해결했습니다.
+          </p>
+          <p>
+            잘 모르는 것을 만나면 직접 부딪히고, 해결 과정을 GitHub Wiki에 정리합니다.
+            언젠가 같은 문제를 만날 팀원을 위해서입니다.
+          </p>
+          <div class="about-contact-links">
+            <a href="mailto:908418@yu.ac.kr" class="contact-chip">📧 908418@yu.ac.kr</a>
+            <a href="https://github.com/yejeeni" target="_blank" rel="noopener" class="contact-chip">🖥 github.com/yejeeni</a>
+            <a href="https://www.notion.so/33471e5b460280a898d4c069359f97c6" target="_blank" rel="noopener" class="contact-chip">📄 노션 포트폴리오</a>
+          </div>
+        </div>
+
+        <div class="about-skills">
+          <h3 class="skills-title">Tech Stack</h3>
+          <div class="skill-group">
+            <span class="skill-category">Backend</span>
+            <div class="skill-tags">
+              <span class="skill-tag">Java</span>
+              <span class="skill-tag">Spring Boot</span>
+              <span class="skill-tag">Spring Security</span>
+              <span class="skill-tag">JPA</span>
+              <span class="skill-tag">MyBatis</span>
+              <span class="skill-tag">WebSocket</span>
+            </div>
+          </div>
+          <div class="skill-group">
+            <span class="skill-category">Database</span>
+            <div class="skill-tags">
+              <span class="skill-tag">Redis</span>
+              <span class="skill-tag">MySQL</span>
+              <span class="skill-tag">PostgreSQL</span>
+            </div>
+          </div>
+          <div class="skill-group">
+            <span class="skill-category">Infra</span>
+            <div class="skill-tags">
+              <span class="skill-tag">Docker</span>
+              <span class="skill-tag">NCP</span>
+              <span class="skill-tag">Nginx</span>
+            </div>
+          </div>
+          <div class="skill-group">
+            <span class="skill-category">Collaboration</span>
+            <div class="skill-tags">
+              <span class="skill-tag">Git / GitHub</span>
+              <span class="skill-tag">Jira</span>
+              <span class="skill-tag">Notion</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Projects Section ===== -->
+  <section id="projects" class="section section-dark fade-section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label light">02</span>
+        <h2 class="section-title light">Projects</h2>
+      </div>
+      <p class="section-sub">총 4개 팀 프로젝트 · 기업 인턴 1개 포함</p>
+
+      <div class="projects-grid">
+
+        <!-- Project 1: Tabletopia (Featured) -->
+        <div class="project-card featured">
+          <div class="card-header">
+            <span class="card-icon">🍴</span>
+            <div class="card-header-right">
+              <span class="featured-badge">대표 프로젝트</span>
+              <span class="card-period">2025.09 ~ 2025.10 · 5인 팀</span>
+            </div>
+          </div>
+          <h3 class="card-name">테이블토피아</h3>
+          <p class="card-summary">실시간 레스토랑 예약 & 웨이팅 플랫폼 with 생성형 AI</p>
+          <div class="card-achievements">
+            <span class="ach-badge green">에러율 15.83% → 0%</span>
+            <span class="ach-badge blue">응답속도 22% 단축</span>
+            <span class="ach-badge gray">Docker + NCP 배포</span>
+          </div>
+          <p class="card-role">테이블 예약 백엔드 · Docker 배포 & NCP 인프라 담당</p>
+          <div class="card-stack">
+            <span class="stack-tag">Java</span>
+            <span class="stack-tag">Spring Boot</span>
+            <span class="stack-tag">Redis</span>
+            <span class="stack-tag">WebSocket</span>
+            <span class="stack-tag">JPA</span>
+            <span class="stack-tag">JWT</span>
+            <span class="stack-tag">Docker</span>
+            <span class="stack-tag">NCP</span>
+          </div>
+          <div class="card-links">
+            <a href="https://github.com/zero5ive/Tabletopia" target="_blank" rel="noopener" class="card-link primary">GitHub</a>
+            <button class="card-link secondary" data-project="tabletopia">자세히 보기</button>
+          </div>
+        </div>
+
+        <!-- Project 2: AI Camera -->
+        <div class="project-card">
+          <div class="card-header">
+            <span class="card-icon">📷</span>
+            <span class="card-period">2024.01 ~ 2024.02 · 4인 팀 · 기업 인턴</span>
+          </div>
+          <h3 class="card-name">AI 카메라 관리 시스템</h3>
+          <p class="card-summary">AI 카메라 실시간 관제 시스템</p>
+          <div class="card-achievements">
+            <span class="ach-badge blue">@PostConstruct 메모리 캐싱</span>
+            <span class="ach-badge blue">10초 주기 장애 자동 감지</span>
+          </div>
+          <p class="card-role">DB 설계 · 스케줄링 · 통계 분석 · 실시간 관제 담당</p>
+          <div class="card-stack">
+            <span class="stack-tag">Java</span>
+            <span class="stack-tag">Spring Legacy</span>
+            <span class="stack-tag">MyBatis</span>
+            <span class="stack-tag">PostgreSQL</span>
+            <span class="stack-tag">Python</span>
+            <span class="stack-tag">Node.js</span>
+          </div>
+          <div class="card-links">
+            <a href="https://github.com/yejeeni/AI-Camera-Management-System" target="_blank" rel="noopener" class="card-link primary">GitHub</a>
+            <button class="card-link secondary" data-project="ai_camera">자세히 보기</button>
+          </div>
+        </div>
+
+        <!-- Project 3: Peach-Store -->
+        <div class="project-card">
+          <div class="card-header">
+            <span class="card-icon">🛒</span>
+            <span class="card-period">2025.07 ~ 2025.08 · 5인 팀</span>
+          </div>
+          <h3 class="card-name">피치스토어</h3>
+          <p class="card-summary">Toss Payments 연동 전자기기 쇼핑몰</p>
+          <div class="card-achievements">
+            <span class="ach-badge blue">Toss Payments 연동</span>
+            <span class="ach-badge blue">주문 스냅샷 정합성 설계</span>
+          </div>
+          <p class="card-role">결제 시스템 · 리뷰/문의/등급/카테고리 관리</p>
+          <div class="card-stack">
+            <span class="stack-tag">Java</span>
+            <span class="stack-tag">Spring Legacy</span>
+            <span class="stack-tag">MyBatis</span>
+            <span class="stack-tag">MySQL</span>
+            <span class="stack-tag">Toss Payments</span>
+          </div>
+          <div class="card-links">
+            <a href="https://github.com/zero5ive/Peach-Store" target="_blank" rel="noopener" class="card-link primary">GitHub</a>
+            <button class="card-link secondary" data-project="peach_store">자세히 보기</button>
+          </div>
+        </div>
+
+        <!-- Project 4: 올씨구나 -->
+        <div class="project-card">
+          <div class="card-header">
+            <span class="card-icon">📹</span>
+            <span class="card-period">2023.04 ~ 2023.11 · 4인 팀</span>
+          </div>
+          <h3 class="card-name">올씨구나</h3>
+          <p class="card-summary">AI IoT 스마트 방범 서비스 — 자율주행 CCTV RC카</p>
+          <div class="card-achievements">
+            <span class="ach-badge green">한이음 ICT 공모전 입선</span>
+            <span class="ach-badge blue">ACK 2023 논문 게재</span>
+          </div>
+          <p class="card-role">라즈베리파이 센서 · 서버 · DB · 웹사이트 · 앱 개발</p>
+          <div class="card-stack">
+            <span class="stack-tag">Python</span>
+            <span class="stack-tag">Flask</span>
+            <span class="stack-tag">Firebase</span>
+            <span class="stack-tag">OpenCV</span>
+            <span class="stack-tag">YOLOv3</span>
+            <span class="stack-tag">Raspberry Pi</span>
+          </div>
+          <div class="card-links">
+            <a href="https://github.com/yejeeni/AI-IoT-CCTV-Security-Service" target="_blank" rel="noopener" class="card-link primary">GitHub</a>
+            <button class="card-link secondary" data-project="allsee">자세히 보기</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Experience Section ===== -->
+  <section id="experience" class="section fade-section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label">03</span>
+        <h2 class="section-title">Experience</h2>
+      </div>
+      <div class="exp-grid">
+
+        <!-- 활동 & 경력 -->
+        <div class="exp-col">
+          <h3 class="exp-group-title">📚 활동 & 경력</h3>
+          <div class="timeline">
+            <div class="timeline-item">
+              <div class="tl-dot"></div>
+              <div class="tl-content">
+                <span class="tl-period">2025.04 ~ 2025.10</span>
+                <h4 class="tl-org">신세계 I&amp;C 스파로스 아카데미</h4>
+                <p class="tl-desc">JAVA 기반 백엔드 개발자 양성 과정</p>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="tl-dot"></div>
+              <div class="tl-content">
+                <span class="tl-period">2023.12 ~ 2024.02</span>
+                <h4 class="tl-org">(주)테이큰소프트</h4>
+                <p class="tl-desc">시스템개발 부서 인턴</p>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="tl-dot"></div>
+              <div class="tl-content">
+                <span class="tl-period">2021.10 ~ 2023.07</span>
+                <h4 class="tl-org">영남대학교 데이터통신망 실험실</h4>
+                <p class="tl-desc">학부연구생</p>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="tl-dot"></div>
+              <div class="tl-content">
+                <span class="tl-period">2020.03 ~ 2024.02</span>
+                <h4 class="tl-org">영남대학교</h4>
+                <p class="tl-desc">정보통신공학과 졸업 · 학점 4.05 / 4.5</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 자격증 -->
+        <div class="exp-col">
+          <h3 class="exp-group-title">🤝 자격증</h3>
+          <div class="cert-list">
+            <div class="cert-item">
+              <span class="cert-name">정보처리기사</span>
+              <span class="cert-date">2023.06</span>
+            </div>
+            <div class="cert-item">
+              <span class="cert-name">SQLD (SQL Developer)</span>
+              <span class="cert-date">2023.07</span>
+            </div>
+            <div class="cert-item">
+              <span class="cert-name">토익스피킹 IH</span>
+              <span class="cert-date">2026.03</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Awards Section ===== -->
+  <section id="awards" class="section section-dark fade-section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label light">04</span>
+        <h2 class="section-title light">Awards</h2>
+      </div>
+      <div class="awards-grid">
+
+        <!-- Award 1: 한이음 (featured) -->
+        <div class="award-big-card featured">
+          <div class="award-big-top">
+            <span class="award-big-badge">🏆 입선</span>
+            <span class="award-big-date">2023.11</span>
+          </div>
+          <h3 class="award-big-title">한이음 ICT멘토링 공모전 입선</h3>
+          <p class="award-big-project">올씨구나 — AI IoT 스마트 방범 서비스</p>
+          <div class="award-sub-list">
+            <div class="award-sub-item">
+              <span class="award-sub-icon">📄</span>
+              <div>
+                <span class="award-sub-label">논문 게재</span>
+                <span class="award-sub-detail">ACK 2023 학술발표대회 논문집 (30권 2호)</span>
+              </div>
+            </div>
+            <div class="award-sub-item">
+              <span class="award-sub-icon">📱</span>
+              <div>
+                <span class="award-sub-label">앱 등록</span>
+                <span class="award-sub-detail">Google Play — all see구나 RC카</span>
+              </div>
+            </div>
+            <div class="award-sub-item">
+              <span class="award-sub-icon">©️</span>
+              <div>
+                <span class="award-sub-label">저작권 등록</span>
+                <span class="award-sub-detail">한국저작권등록위원회</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Award 2: 해커톤 -->
+        <div class="award-big-card">
+          <div class="award-big-top">
+            <span class="award-big-badge secondary">🥈 장려상</span>
+            <span class="award-big-date">2023.10</span>
+          </div>
+          <h3 class="award-big-title">한국장애인재단 해커톤 아이디어톤 장려상</h3>
+          <p class="award-big-project">시각장애인을 위한 장애물 탐지 웨어러블 기기</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Contact Section ===== -->
+  <section id="contact" class="section section-contact fade-section">
+    <div class="container contact-wrap">
+      <div class="section-header">
+        <span class="section-label light">05</span>
+        <h2 class="section-title light">Contact</h2>
+      </div>
+      <p class="contact-desc">
+        함께 일하고 싶다면 언제든지 연락해주세요.<br />
+        새로운 기회에 언제나 열려 있습니다.
+      </p>
+      <div class="contact-items">
+        <a href="mailto:908418@yu.ac.kr" class="contact-card">
+          <span class="contact-card-icon">📧</span>
+          <div>
+            <span class="contact-card-label">Email</span>
+            <span class="contact-card-value">908418@yu.ac.kr</span>
+          </div>
+        </a>
+        <a href="https://github.com/yejeeni" target="_blank" rel="noopener" class="contact-card">
+          <span class="contact-card-icon">🖥</span>
+          <div>
+            <span class="contact-card-label">GitHub</span>
+            <span class="contact-card-value">github.com/yejeeni</span>
+          </div>
+        </a>
+        <a href="https://www.notion.so/33471e5b460280a898d4c069359f97c6" target="_blank" rel="noopener" class="contact-card">
+          <span class="contact-card-icon">📄</span>
+          <div>
+            <span class="contact-card-label">Notion</span>
+            <span class="contact-card-value">포트폴리오 전체 보기</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Footer ===== -->
+  <footer>
+    <div class="container footer-inner">
+      <span>© 2026 김예진 · Java Backend Developer</span>
+      <div class="footer-links">
+        <a href="https://github.com/yejeeni" target="_blank" rel="noopener">GitHub</a>
+        <a href="mailto:908418@yu.ac.kr">Email</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===== Project Modal ===== -->
+  <div id="project-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title" hidden>
+    <div class="modal-panel">
+      <button class="modal-close" aria-label="닫기">&times;</button>
+      <div class="modal-scroll" id="modal-content">
+        <!-- JS로 동적 생성 -->
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
