@@ -234,26 +234,46 @@ const PROJECT_DATA = {
     github: 'https://github.com/zero5ive/Peach-Store',
     summary: 'Toss Payments 연동 결제 시스템 및 주문 스냅샷 설계 담당',
     achievements: [
-      { color: 'blue', text: 'Toss Payments 결제 승인·취소·실패 전 플로우' },
-      { color: 'blue', text: '주문 시점 스냅샷으로 데이터 정합성 보장' },
+      { color: 'blue',  text: 'Toss Payments 결제 승인·취소·실패 전 플로우' },
+      { color: 'blue',  text: '주문 시점 스냅샷으로 데이터 정합성 보장' },
+      { color: 'green', text: '15-thread 동시 결제 중복 방지 검증 PASS' },
     ],
     stack: [
       { category: 'Backend',  tags: ['Java', 'Spring MVC', 'MyBatis', 'MySQL'] },
       { category: '외부 API', tags: ['Toss Payments', 'Kakao Login', 'Naver Login'] },
+      { category: '테스트',   tags: ['Python', 'requests', 'threading.Barrier'] },
     ],
-    performance: null,
+    performance: {
+      note: 'Python 15-thread 동시 요청',
+      rows: [
+        { item: '성공 결제 수',         before: '미검증', after: '1건',  diff: '정확', highlight: true  },
+        { item: 'toss_payment 레코드', before: '미검증', after: '1건',  diff: '중복 없음', highlight: true  },
+        { item: '나머지 14건',          before: '-',      after: '500', diff: 'Toss API 거부', highlight: false },
+      ],
+    },
     implemented: [
       'Toss Payments API 연동 — 결제 승인·취소·실패 전 플로우 구현',
       '결제-주문-스냅샷 단일 트랜잭션 처리로 정합성 보장',
+      '3계층 중복 결제 방지 설계 — Toss API 멱등성 + selectByPaymentKey DB 체크 + @Transactional 롤백',
       '리뷰·문의·등급(Bronze~Platinum)·카테고리 관리 CRUD 전체 구현',
     ],
     troubleshooting: [
+      {
+        title: '동시 결제 중복 방지 — 15-thread 시나리오 테스트로 검증',
+        rows: [
+          { label: '목표', text: '동일 paymentKey로 15개 요청이 동시에 들어와도 DB에 결제 레코드가 1건만 생성되는지 검증.' },
+          { label: '방법', text: 'Python threading.Barrier로 15개 스레드를 동기화 후 동시에 /payment/confirm 호출. DB 결과를 자동 검증하는 테스트 스크립트 직접 작성.' },
+          { label: '1차 시도 실패 원인', text: 'Python requests 라이브러리가 RFC 쿠키 정책상 localhost 도메인 쿠키를 자동으로 붙이지 않아 JSESSIONID가 누락 → 15건 전부 로그인 페이지로 302 리다이렉트 → DB 0건.' },
+          { label: '해결', text: 'session.cookies.set() 대신 Cookie 헤더 직접 지정으로 수정. 추가로 selectByPaymentKey() 중복 체크를 서비스 레이어에 추가해 Toss API 통과 후 DB 수준에서도 차단.' },
+          { label: '결과', text: '15건 동시 요청 중 1건만 200 성공, 나머지 14건은 Toss API 차단으로 500. toss_payment · order_receipt 각 1건 생성 확인. PASS.' },
+        ],
+      },
       {
         title: '결제-DB 저장 트랜잭션 불일치 — 단일 트랜잭션으로 통합',
         rows: [
           { label: '문제', text: '결제 승인은 완료됐는데 DB 저장 실패 시 롤백이 안 되는 위험. 컨트롤러와 서비스 양쪽에 @Transactional 중복 적용으로 트랜잭션 범위 불명확.' },
           { label: '원인', text: 'TossPaymentService와 PaymentController 양쪽에 @Transactional이 걸려 있어 트랜잭션 경계가 예상과 다르게 동작.' },
-          { label: '해결', text: '서비스 레벨 @Transactional 제거 → 컨트롤러 단일 트랜잭션으로 통합. DB 처리 실패 시 예외 전파 → 결제 자동 취소 로직 실행.' },
+          { label: '해결', text: '컨트롤러 @Transactional 제거 → TossPaymentService.handlePaymentAndSession()으로 이동. processPaymentComplete()에 두면 같은 클래스 내 자기 호출이라 Spring 프록시를 거치지 않아 @Transactional이 무효가 되기 때문.' },
           { label: '결과', text: '결제 승인부터 DB 저장까지 하나의 트랜잭션으로 처리. 중간 실패 시 결제 취소 + 롤백 자동 수행.' },
         ],
       },
