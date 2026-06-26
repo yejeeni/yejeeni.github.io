@@ -147,38 +147,37 @@ const PROJECT_DATA = {
       { color: 'gray',  text: 'Docker + NCP 전체 배포' },
     ],
     stack: [
-      { category: 'Backend',    tags: ['Java', 'Spring Boot 3.x', 'Spring Security', 'JWT', 'JPA'] },
+      { category: 'Backend',    tags: ['Java 21', 'Spring Boot 3.5.6', 'Spring Security', 'JWT', 'JPA', 'QueryDSL'] },
       { category: 'DB & 실시간', tags: ['MySQL', 'Redis', 'WebSocket (STOMP)'] },
       { category: 'Infra',      tags: ['Docker', 'NCP', 'Nginx'] },
     ],
     performance: {
       note: 'JMeter · 100명 동시 · 3,500건',
       rows: [
-        { item: '에러율',      before: '15.83%', after: '0%',   diff: '▼ 100%', highlight: true },
+        { item: '타임슬롯 조회 에러율', before: '15.83%', after: '0%', diff: '완전 제거', highlight: true },
         { item: '안정 응답속도', before: '65ms',   after: '51ms', diff: '▼ 22%',  highlight: false },
       ],
     },
     implemented: [
       '테이블 예약 도메인 전체 — 예약 생성·조회·취소·상태 변경 API',
       'Redis SETNX 원자적 연산으로 동시 좌석 선점 Race Condition 방지',
-      'Docker Compose + NCP 배포, Nginx 리버스 프록시 설정, 트러블슈팅 6건 Wiki 문서화',
+      'Docker Compose + NCP 전체 배포 주도 — 포트 매핑·charset·환경변수·SPA 라우팅 등 배포 환경 이슈 5건 직접 진단·해결 후 팀 Wiki 문서화',
     ],
     troubleshooting: [
+      {
+        title: '타임슬롯 조회 N+1 쿼리 — Redis 캐싱으로 해결',
+        rows: [
+          { label: '문제', text: '타임슬롯 수만큼 DB 예약 조회가 반복 실행(N+1). 100명 동시 접근 시 DB 커넥션 풀 고갈 → 에러율 15.83%.' },
+          { label: '해결', text: 'Redis로 타임슬롯 조회 결과를 캐싱(TTL 5분). 캐시 히트 시 DB 쿼리 0건으로 처리.' },
+          { label: '결과', text: '에러율 15.83% → 0%, 응답속도 65ms → 51ms.' },
+        ],
+      },
       {
         title: 'Redis 기반 실시간 좌석 선점 — 동시성 이슈 해결',
         rows: [
           { label: '문제', text: '다수 사용자 동시 접근 시 중복 예약 가능성. RDBMS 단독 처리 시 트랜잭션 충돌 우려.' },
           { label: '해결', text: 'Redis 싱글 스레드 원자성 활용해 좌석 선점(Hold) 구축. TTL 5분으로 미결제 좌석 자동 해제.' },
           { label: '결과', text: '분산 락 없이 데이터 무결성 보장. DB 부하 최소화.' },
-        ],
-      },
-      {
-        title: 'Docker 배포 — 복합 이슈 5건 해결',
-        rows: [
-          { label: '문제', text: 'ERR_CONNECTION_REFUSED · 한글 깨짐 · React Router 404 · Redis 연결 실패 · 이미지 로딩 실패 복합 발생.' },
-          { label: '원인', text: '포트 매핑 불일치 · MySQL charset 미설정 · .env API URL localhost 고정 · Redis 서비스 누락 · Nginx try_files 미설정.' },
-          { label: '해결', text: '① 포트 매핑 수정 ② MySQL utf8mb4 ③ VITE_API_BASE_URL 서버 IP 변경 ④ Redis 서비스 추가 ⑤ Nginx try_files 추가' },
-          { label: '결과', text: '전체 서비스 정상 배포. 해결 내용 Wiki 문서화.' },
         ],
       },
     ],
@@ -192,11 +191,11 @@ const PROJECT_DATA = {
     github: 'https://github.com/yejeeni/AI-Camera-Management-System',
     summary: '(주)테이큰소프트 인턴 — AI 카메라 실시간 관제 시스템 프로토타입 개발',
     achievements: [
-      { color: 'blue', text: '스케줄러 DB 조회 제거 (@PostConstruct 캐싱)' },
+      { color: 'blue', text: '장비 목록 메모리 캐싱으로 스케줄러 DB 조회 제거' },
       { color: 'blue', text: 'CPU/메모리/연결 장애 10초 주기 실시간 감지' },
     ],
     stack: [
-      { category: 'Backend',  tags: ['Java', 'Spring Legacy', 'MyBatis', 'PostgreSQL'] },
+      { category: 'Backend',  tags: ['Java', 'Spring MVC', 'MyBatis', 'PostgreSQL'] },
       { category: '영상 처리', tags: ['Python', 'Node.js', 'FFmpeg'] },
     ],
     performance: null,
@@ -239,42 +238,44 @@ const PROJECT_DATA = {
       { color: 'green', text: '15-thread 동시 결제 중복 방지 검증 PASS' },
     ],
     stack: [
-      { category: 'Backend',  tags: ['Java', 'Spring MVC', 'MyBatis', 'MySQL'] },
-      { category: '외부 API', tags: ['Toss Payments', 'Kakao Login', 'Naver Login'] },
+      { category: 'Backend',  tags: ['Java 21', 'Spring MVC', 'MyBatis', 'MySQL'] },
+      { category: '외부 API', tags: ['Toss Payments', 'Google Login', 'Kakao Login', 'Naver Login'] },
       { category: '테스트',   tags: ['Python', 'requests', 'threading.Barrier'] },
     ],
     performance: {
       note: 'Python 15-thread 동시 요청',
       rows: [
-        { item: '성공 결제 수',         before: '미검증', after: '1건',  diff: '정확', highlight: true  },
-        { item: 'toss_payment 레코드', before: '미검증', after: '1건',  diff: '중복 없음', highlight: true  },
-        { item: '나머지 14건',          before: '-',      after: '500', diff: 'Toss API 거부', highlight: false },
+        { item: '성공 결제 수', before: '미검증', after: '1건 (중복 없음)', diff: '', highlight: true  },
+        { item: '나머지 14건', before: '-',      after: '-',            diff: 'Toss 멱등성 처리로 거부', highlight: false },
       ],
     },
     implemented: [
       'Toss Payments API 연동 — 결제 승인·취소·실패 전 플로우 구현',
-      '결제-주문-스냅샷 단일 트랜잭션 처리로 정합성 보장',
-      '3계층 중복 결제 방지 설계 — Toss API 멱등성 + selectByPaymentKey DB 체크 + @Transactional 롤백',
+      '결제 금액 위변조 방지 — Toss 승인 후 세션 금액·요청 금액 서버 검증, 불일치 시 결제 자동 취소',
+      '결제-주문-스냅샷 단일 트랜잭션 처리로 DB 정합성 보장',
+      'DB 처리 실패 시 Toss 결제 자동 취소 — 주문 미생성 시 외부 결제 무효화로 이중 청구 방지',
+      '3계층 중복 결제 방지 설계 — Toss API 멱등성 + 결제 키 중복 DB 조회 + @Transactional 롤백',
       '리뷰·문의·등급(Bronze~Platinum)·카테고리 관리 CRUD 전체 구현',
+    ],
+    verification: [
+      {
+        title: '동시 결제 중복 방지 — 15-thread 시나리오 직접 설계 및 검증',
+        rows: [
+          { label: '설계', text: 'Python threading.Barrier로 15개 스레드를 동기화해 결제 확인 API에 동시 요청하는 테스트 스크립트 직접 작성. DB 결과 자동 검증 포함.' },
+          { label: '디버깅', text: 'requests 라이브러리의 RFC 쿠키 정책으로 localhost 도메인 세션 쿠키 누락 → 15건 전부 302 리다이렉트. Cookie 헤더 직접 지정으로 수정.' },
+          { label: '개선', text: '테스트 과정에서 Toss API 차단 이후 DB 수준 방어 부재를 발견 → 결제 키 기반 DB 중복 조회를 서비스 레이어에 추가.' },
+          { label: '결과', text: '15건 중 1건 성공, 나머지 14건 Toss 멱등성 처리로 거부. 결제 · 주문 레코드 각 1건 생성 확인. PASS.' },
+        ],
+      },
     ],
     troubleshooting: [
       {
-        title: '동시 결제 중복 방지 — 15-thread 시나리오 테스트로 검증',
+        title: 'Spring @Transactional Self-invocation — 트랜잭션 미적용 원인 추적',
         rows: [
-          { label: '목표', text: '동일 paymentKey로 15개 요청이 동시에 들어와도 DB에 결제 레코드가 1건만 생성되는지 검증.' },
-          { label: '방법', text: 'Python threading.Barrier로 15개 스레드를 동기화 후 동시에 /payment/confirm 호출. DB 결과를 자동 검증하는 테스트 스크립트 직접 작성.' },
-          { label: '1차 시도 실패 원인', text: 'Python requests 라이브러리가 RFC 쿠키 정책상 localhost 도메인 쿠키를 자동으로 붙이지 않아 JSESSIONID가 누락 → 15건 전부 로그인 페이지로 302 리다이렉트 → DB 0건.' },
-          { label: '해결', text: 'session.cookies.set() 대신 Cookie 헤더 직접 지정으로 수정. 추가로 selectByPaymentKey() 중복 체크를 서비스 레이어에 추가해 Toss API 통과 후 DB 수준에서도 차단.' },
-          { label: '결과', text: '15건 동시 요청 중 1건만 200 성공, 나머지 14건은 Toss API 차단으로 500. toss_payment · order_receipt 각 1건 생성 확인. PASS.' },
-        ],
-      },
-      {
-        title: '결제-DB 저장 트랜잭션 불일치 — 단일 트랜잭션으로 통합',
-        rows: [
-          { label: '문제', text: '결제 승인은 완료됐는데 DB 저장 실패 시 롤백이 안 되는 위험. 컨트롤러와 서비스 양쪽에 @Transactional 중복 적용으로 트랜잭션 범위 불명확.' },
-          { label: '원인', text: 'TossPaymentService와 PaymentController 양쪽에 @Transactional이 걸려 있어 트랜잭션 경계가 예상과 다르게 동작.' },
-          { label: '해결', text: '컨트롤러 @Transactional 제거 → TossPaymentService.handlePaymentAndSession()으로 이동. processPaymentComplete()에 두면 같은 클래스 내 자기 호출이라 Spring 프록시를 거치지 않아 @Transactional이 무효가 되기 때문.' },
-          { label: '결과', text: '결제 승인부터 DB 저장까지 하나의 트랜잭션으로 처리. 중간 실패 시 결제 취소 + 롤백 자동 수행.' },
+          { label: '문제', text: 'DB 저장 메서드에 @Transactional 선언했으나 같은 클래스 안의 다른 메서드에서 직접 호출하면 Spring 프록시가 개입하지 않아 트랜잭션이 동작하지 않음. 예외 발생 시 롤백 없이 commit됨.' },
+          { label: '추가 발견', text: 'catch 블록에서 예외를 삼키면 @Transactional이 있어도 메서드 정상 종료로 처리되어 commit 발동. throw e 추가로 해결.' },
+          { label: '해결', text: '@Transactional을 외부에서 직접 호출되는 상위 메서드로 이동. 내부 메서드는 이미 시작된 트랜잭션에 참여하는 구조로 변경.' },
+          { label: '결과', text: 'DB 처리 실패 시 전체 롤백 및 예외 전파 정상 동작 확인.' },
         ],
       },
     ],
@@ -344,7 +345,25 @@ function buildModalHTML(project) {
       </div>`;
   }
 
-  const tsHTML = p.troubleshooting.length > 0 ? `
+  const verHTML = p.verification && p.verification.length > 0 ? `
+    <div class="modal-section">
+      <div class="modal-section-title">검증</div>
+      <div class="modal-ts-list">
+        ${p.verification.map(v => `
+          <div class="modal-ts-item">
+            <div class="modal-ts-title">${v.title}</div>
+            <div class="modal-ts-rows">
+              ${v.rows.map(row => `
+                <div class="modal-ts-row">
+                  <span class="modal-ts-label">${row.label}</span>
+                  <span class="modal-ts-text">${row.text}</span>
+                </div>`).join('')}
+            </div>
+          </div>`).join('')}
+      </div>
+    </div>` : '';
+
+  const tsHTML = p.troubleshooting && p.troubleshooting.length > 0 ? `
     <div class="modal-section">
       <div class="modal-section-title">트러블슈팅</div>
       <div class="modal-ts-list">
@@ -385,6 +404,7 @@ function buildModalHTML(project) {
       <div class="modal-section-title">핵심 구현</div>
       <ul class="modal-implemented">${implHTML}</ul>
     </div>
+    ${verHTML}
     ${tsHTML}
     <div class="modal-footer">
       <a href="${p.github}" target="_blank" rel="noopener" class="modal-github-btn">GitHub 바로가기 →</a>
