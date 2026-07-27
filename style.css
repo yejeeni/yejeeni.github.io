@@ -1187,11 +1187,19 @@ footer span {
   margin-bottom: 0.4rem;
 }
 
+.modal-description {
+  font-size: 0.9rem;
+  color: var(--gray-600);
+  margin-top: 0.5rem;
+  line-height: 1.6;
+}
+
 .modal-summary {
   font-size: 0.9rem;
   color: var(--gray-500);
-  margin-top: 0.35rem;
+  margin-top: 1rem;
   line-height: 1.6;
+  font-weight: 600;
 }
 
 .modal-section {

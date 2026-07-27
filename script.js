@@ -140,6 +140,7 @@ const PROJECT_DATA = {
     period: '2025.09 ~ 2025.10',
     team: '5인 팀',
     github: 'https://github.com/zero5ive/Tabletopia',
+    description: '좌석을 눌러야만 선택 여부를 알 수 있는 일반 티켓팅 사이트와 달리, 다른 사용자가 테이블을 선택하는 순간 화면에 실시간으로 반영돼 예약 현황을 한눈에 확인할 수 있는 레스토랑 테이블 예약 플랫폼입니다.',
     summary: 'Redis·WebSocket 기반 실시간 좌석 선점 시스템 설계 및 Docker + NCP 배포 담당',
     achievements: [
       { color: 'green', text: '에러율 15.83% → 0%' },
@@ -159,9 +160,10 @@ const PROJECT_DATA = {
       ],
     },
     implemented: [
-      '테이블 예약 도메인 전체 — 예약 생성·조회·취소·상태 변경 API',
+      '예약 생성·조회·취소·상태 변경까지 테이블 예약 도메인 전체 구현',
       'Redis SETNX 원자적 연산으로 동시 좌석 선점 Race Condition 방지',
-      'Docker Compose + NCP 전체 배포 주도 — 포트 매핑·charset·환경변수·SPA 라우팅 등 배포 환경 이슈 5건 직접 진단·해결 후 팀 Wiki 문서화',
+      'WebSocket(STOMP)으로 좌석 상태 변경을 전 사용자 화면에 즉시 브로드캐스트하여 클릭 없이도 실시간 예약 현황 확인 가능',
+      'Docker Compose와 NCP로 전체 배포를 주도하며 포트 매핑·charset·환경변수·SPA 라우팅 등 배포 환경 이슈 직접 진단·해결 후 팀 Wiki 문서화',
     ],
     troubleshooting: [
       {
@@ -189,19 +191,20 @@ const PROJECT_DATA = {
     period: '2024.01 ~ 2024.02',
     team: '4인 팀 · 기업 인턴',
     github: 'https://github.com/yejeeni/AI-Camera-Management-System',
+    description: '객체를 감지하는 CCTV 장비를 관리하는 시스템으로, 카메라가 감지한 사물을 확인하고 장비 상태를 실시간으로 모니터링해 장애를 자동 감지합니다.',
     summary: '(주)테이큰소프트 인턴 — AI 카메라 실시간 관제 시스템 프로토타입 개발',
     achievements: [
       { color: 'blue', text: '장비 목록 메모리 캐싱으로 스케줄러 DB 조회 제거' },
       { color: 'blue', text: 'CPU/메모리/연결 장애 10초 주기 실시간 감지' },
     ],
     stack: [
-      { category: 'Backend',  tags: ['Java', 'Spring MVC', 'MyBatis', 'PostgreSQL'] },
+      { category: 'Backend',  tags: ['Java', 'Spring Legacy', 'MyBatis', 'PostgreSQL'] },
       { category: '영상 처리', tags: ['Python', 'Node.js', 'FFmpeg'] },
     ],
     performance: null,
     implemented: [
       '10초 주기 스케줄러로 CPU/메모리 기준치 초과 및 연결 오류 자동 감지',
-      '@PostConstruct 메모리 캐싱 — 스케줄러 실행마다 반복되던 DB 풀스캔 제거',
+      '@PostConstruct로 장비 목록을 메모리에 캐싱하여 스케줄러 실행마다 반복되던 DB 풀스캔 제거',
       'Node.js + FFmpeg RTSP → HLS 변환으로 브라우저 실시간 영상 표시 구현',
     ],
     troubleshooting: [
@@ -231,6 +234,7 @@ const PROJECT_DATA = {
     period: '2025.07 ~ 2025.08',
     team: '5인 팀',
     github: 'https://github.com/zero5ive/Peach-Store',
+    description: '기종·색상·용량을 커스터마이징할 수 있는 전자기기를 Toss Payments 결제로 판매하는 쇼핑몰입니다.',
     summary: 'Toss Payments 연동 결제 시스템 및 주문 스냅샷 설계 담당',
     achievements: [
       { color: 'blue',  text: 'Toss Payments 결제 승인·취소·실패 전 플로우' },
@@ -250,11 +254,11 @@ const PROJECT_DATA = {
       ],
     },
     implemented: [
-      'Toss Payments API 연동 — 결제 승인·취소·실패 전 플로우 구현',
-      '결제 금액 위변조 방지 — Toss 승인 후 세션 금액·요청 금액 서버 검증, 불일치 시 결제 자동 취소',
+      'Toss Payments API를 연동해 결제 승인·취소·실패 전 플로우 구현',
+      'Toss 승인 후 세션 금액·요청 금액 서버 검증으로 결제 금액 위변조 방지, 불일치 시 결제 자동 취소',
       '결제-주문-스냅샷 단일 트랜잭션 처리로 DB 정합성 보장',
-      'DB 처리 실패 시 Toss 결제 자동 취소 — 주문 미생성 시 외부 결제 무효화로 이중 청구 방지',
-      '3계층 중복 결제 방지 설계 — Toss API 멱등성 + 결제 키 중복 DB 조회 + @Transactional 롤백',
+      'DB 처리 실패 시 Toss 결제 자동 취소하여 주문 미생성 시 외부 결제 무효화로 이중 청구 방지',
+      'Toss API 멱등성 + 결제 키 중복 DB 조회 + @Transactional 롤백까지 3계층 중복 결제 방지 설계',
       '리뷰·문의·등급(Bronze~Platinum)·카테고리 관리 CRUD 전체 구현',
     ],
     verification: [
@@ -268,17 +272,7 @@ const PROJECT_DATA = {
         ],
       },
     ],
-    troubleshooting: [
-      {
-        title: 'Spring @Transactional Self-invocation — 트랜잭션 미적용 원인 추적',
-        rows: [
-          { label: '문제', text: 'DB 저장 메서드에 @Transactional 선언했으나 같은 클래스 안의 다른 메서드에서 직접 호출하면 Spring 프록시가 개입하지 않아 트랜잭션이 동작하지 않음. 예외 발생 시 롤백 없이 commit됨.' },
-          { label: '추가 발견', text: 'catch 블록에서 예외를 삼키면 @Transactional이 있어도 메서드 정상 종료로 처리되어 commit 발동. throw e 추가로 해결.' },
-          { label: '해결', text: '@Transactional을 외부에서 직접 호출되는 상위 메서드로 이동. 내부 메서드는 이미 시작된 트랜잭션에 참여하는 구조로 변경.' },
-          { label: '결과', text: 'DB 처리 실패 시 전체 롤백 및 예외 전파 정상 동작 확인.' },
-        ],
-      },
-    ],
+    troubleshooting: [],
   },
 
   allsee: {
@@ -287,11 +281,11 @@ const PROJECT_DATA = {
     period: '2023.04 ~ 2023.11',
     team: '4인 팀 · 한이음 ICT멘토링',
     github: 'https://github.com/yejeeni/AI-IoT-CCTV-Security-Service',
+    description: '라즈베리파이 센서와 자율주행 CCTV RC카로 이상 상황을 감지하는 AI·IoT 기반 스마트 방범 서비스입니다.',
     summary: 'AI + IoT + 자율주행 결합 스마트 방범 서비스 — 센서·서버·앱 풀스택 담당',
     achievements: [
       { color: 'green', text: '🏆 한이음 ICT멘토링 공모전 입선' },
       { color: 'blue',  text: '📄 ACK 2023 학술발표대회 논문 게재' },
-      { color: 'blue',  text: '📱 Google Play 앱 등록' },
       { color: 'gray',  text: '©️ 한국저작권위원회 저작권 등록' },
     ],
     stack: [
@@ -389,6 +383,7 @@ function buildModalHTML(project) {
         <span class="modal-team">${p.team}</span>
       </div>
       <h2 id="modal-title">${p.name}</h2>
+      <p class="modal-description">${p.description}</p>
       <p class="modal-summary">${p.summary}</p>
     </div>
     <div class="modal-section">
