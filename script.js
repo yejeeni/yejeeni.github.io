@@ -239,40 +239,40 @@ const PROJECT_DATA = {
     achievements: [
       { color: 'blue',  text: 'Toss Payments 결제 승인·취소·실패 전 플로우' },
       { color: 'blue',  text: '주문 시점 스냅샷으로 데이터 정합성 보장' },
-      { color: 'green', text: '15-thread 동시 결제 중복 방지 검증 PASS' },
+      { color: 'green', text: '결제 금액 조작 재현 테스트로 검증' },
     ],
     stack: [
       { category: 'Backend',  tags: ['Java 21', 'Spring MVC', 'MyBatis', 'MySQL'] },
       { category: '외부 API', tags: ['Toss Payments', 'Google Login', 'Kakao Login', 'Naver Login'] },
-      { category: '테스트',   tags: ['Python', 'requests', 'threading.Barrier'] },
+      { category: '테스트',   tags: ['Python', 'requests'] },
     ],
-    performance: {
-      note: 'Python 15-thread 동시 요청',
-      rows: [
-        { item: '성공 결제 수', before: '미검증', after: '1건 (중복 없음)', diff: '', highlight: true  },
-        { item: '나머지 14건', before: '-',      after: '-',            diff: 'Toss 멱등성 처리로 거부', highlight: false },
-      ],
-    },
+    performance: null,
     implemented: [
       'Toss Payments API를 연동해 결제 승인·취소·실패 전 플로우 구현',
-      'Toss 승인 후 세션 금액·요청 금액 서버 검증으로 결제 금액 위변조 방지, 불일치 시 결제 자동 취소',
+      'Toss 실제 승인 요청 전에 세션 금액과 클라이언트 요청 금액을 서버에서 먼저 대조하여, 불일치 시 승인 요청 자체가 나가지 않도록 설계',
       '결제-주문-스냅샷 단일 트랜잭션 처리로 DB 정합성 보장',
       'DB 처리 실패 시 Toss 결제 자동 취소하여 주문 미생성 시 외부 결제 무효화로 이중 청구 방지',
-      'Toss API 멱등성 + 결제 키 중복 DB 조회 + @Transactional 롤백까지 3계층 중복 결제 방지 설계',
+      '장바구니 스냅샷과 결제 금액을 클라이언트 입력이 아닌 서버가 DB 원본 데이터로 직접 계산하도록 설계하여 금액 조작 가능성 원천 차단',
       '리뷰·문의·등급(Bronze~Platinum)·카테고리 관리 CRUD 전체 구현',
     ],
-    verification: [
+    troubleshooting: [
       {
-        title: '동시 결제 중복 방지 — 15-thread 시나리오 직접 설계 및 검증',
+        title: '결제 승인–DB 정합성을 위한 보상 트랜잭션 구현 및 검증',
         rows: [
-          { label: '설계', text: 'Python threading.Barrier로 15개 스레드를 동기화해 결제 확인 API에 동시 요청하는 테스트 스크립트 직접 작성. DB 결과 자동 검증 포함.' },
-          { label: '디버깅', text: 'requests 라이브러리의 RFC 쿠키 정책으로 localhost 도메인 세션 쿠키 누락 → 15건 전부 302 리다이렉트. Cookie 헤더 직접 지정으로 수정.' },
-          { label: '개선', text: '테스트 과정에서 Toss API 차단 이후 DB 수준 방어 부재를 발견 → 결제 키 기반 DB 중복 조회를 서비스 레이어에 추가.' },
-          { label: '결과', text: '15건 중 1건 성공, 나머지 14건 Toss 멱등성 처리로 거부. 결제 · 주문 레코드 각 1건 생성 확인. PASS.' },
+          { label: '문제', text: '결제 승인 이후 DB 처리가 실패하면, 결제는 처리됐는데 주문 데이터가 존재하지 않는 정합성 문제가 발생할 수 있음.' },
+          { label: '해결', text: 'DB 저장 실패 시 결제를 자동 취소하는 보상 트랜잭션 로직을 구현하고, 취소 요청 처리를 HTTP 상태코드 기반 성공/실패 판별로 설계해 취소 결과를 신뢰성 있게 확인할 수 있도록 함. 실제 결제 게이트웨이에서 승인 성공 및 DB 저장 실패 상황을 재현하는 테스트를 구축해 검증.' },
+          { label: '결과', text: '재현 테스트에서 DB 실패 시 결제 자동 취소 및 DB 신규 레코드 미생성을 확인. 일부 INSERT 성공 후 실패하는 상황을 재현해 트랜잭션 원자성까지 검증.' },
+        ],
+      },
+      {
+        title: '결제 금액 조작 방지를 위한 서버 측 가격 재계산',
+        rows: [
+          { label: '문제', text: '장바구니 스냅샷 가격과 결제 세션 금액을 클라이언트가 보낸 값 그대로 신뢰하고 있어, 승인 요청 자체에 조작된 금액을 실어 보내면 서버의 금액 대조 로직도 함께 무력화되는 구조적 취약점이 있었음.' },
+          { label: '해결', text: '스냅샷 생성 시 클라이언트 입력을 무시하고 서버가 실제 장바구니(Product/CustomOption) 데이터로 가격을 직접 재계산하도록 변경. 결제 세션 저장 시에도 클라이언트가 보낸 금액을 무시하고 스냅샷 합계로 재계산하도록 변경.' },
+          { label: '결과', text: '조작된 금액으로 결제 확인을 시도하는 상황을 재현하여, Toss 승인 요청 자체가 나가기 전에 서버가 거부하는 것을 확인.' },
         ],
       },
     ],
-    troubleshooting: [],
   },
 
   allsee: {
